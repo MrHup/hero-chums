@@ -25,12 +25,36 @@ class MapSampleState extends State<MapSample> {
       tilt: 59.440717697143555,
       zoom: 19.151926040649414);
 
+  Set<Marker> _markers = {};
+
+  @override
+  void initState() {
+    super.initState();
+    _addCustomMarker();
+  }
+
+  void _addCustomMarker() async {
+    final marker = Marker(
+      markerId: MarkerId('leaf_marker'),
+      position: LatLng(37.43296265331129, -122.08832357078792),
+      visible: true,
+      icon: await BitmapDescriptor.fromAssetImage(
+          ImageConfiguration(), 'assets/images/leaf_mark.png'),
+    );
+
+    setState(() {
+      print("Added leaf");
+      _markers.add(marker);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: GoogleMap(
         mapType: MapType.normal,
         initialCameraPosition: _kGooglePlex,
+        markers: _markers,
         onMapCreated: (GoogleMapController controller) {
           _controller.complete(controller);
         },
@@ -45,6 +69,6 @@ class MapSampleState extends State<MapSample> {
 
   Future<void> _goToTheLake() async {
     final GoogleMapController controller = await _controller.future;
-    await controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
+    controller.animateCamera(CameraUpdate.newCameraPosition(_kLake));
   }
 }
