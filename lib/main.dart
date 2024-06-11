@@ -1,42 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:hero_chum/map_widget.dart';
+import 'package:get/get.dart';
+import 'package:hero_chum/screens/map_screen.dart';
+import 'package:hero_chum/screens/unknown_screen.dart';
 
 void main() {
-  runApp(const MyApp());
-}
-
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
-  // This widget is the root of your application.
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  @override
-  Widget build(BuildContext context) {
-    return const Scaffold(
-      body: Center(child: MapSample()),
-    );
-  }
+  runApp(GetMaterialApp(
+    debugShowCheckedModeBanner: false,
+    unknownRoute: GetPage(name: '/notfound', page: () => UnknownScreen()),
+    initialRoute: '/',
+    getPages: [
+      GetPage(
+          name: '/', page: () => MapScreen(), transition: Transition.native),
+    ],
+  ));
 }

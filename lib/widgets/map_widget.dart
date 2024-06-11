@@ -68,7 +68,7 @@ class MapSampleState extends State<MapSample> {
   }
 
   void changeMapMode(GoogleMapController mapController) {
-    getJsonFile("map_styles/style_silver.json")
+    getJsonFile("map_styles/style_full_standard.json")
         .then((value) => setMapStyle(value, mapController));
   }
 

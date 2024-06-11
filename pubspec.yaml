@@ -12,6 +12,8 @@ dependencies:
 
   cupertino_icons: ^1.0.6
   google_maps_flutter: ^2.6.1
+  get: ^4.6.6
+  rive: ^0.13.7
 
 dev_dependencies:
   flutter_test:
@@ -27,4 +29,8 @@ flutter:
     - assets/map_styles/style_dark.json
     - assets/map_styles/style_full_standard.json
     - assets/map_styles/style_silver.json
+    - assets/images/logo_text.png
+    - assets/images/login_motto.png
+    - assets/animations/herochums.riv
+
 
