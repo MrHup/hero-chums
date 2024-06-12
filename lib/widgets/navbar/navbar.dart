@@ -20,7 +20,7 @@ class NavBar extends StatelessWidget {
                   : MainAxisAlignment.spaceBetween,
           children: [
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 40),
+              padding: const EdgeInsets.only(left: 20, right: 10),
               child: Image.asset('assets/images/logo_text.png'),
             ),
             MediaQuery.of(context).orientation == Orientation.landscape
@@ -29,6 +29,7 @@ class NavBar extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               MapButton(),
                               AboutUsButton(),
@@ -37,9 +38,16 @@ class NavBar extends StatelessWidget {
                           RegisterButton()
                         ]),
                   )
-                : const IconButton(
-                    onPressed: null,
-                    icon: Icon(CupertinoIcons.line_horizontal_3))
+                : Row(
+                    children: [
+                      const RegisterButton(),
+                      IconButton(
+                          onPressed: () {
+                            Scaffold.of(context).openDrawer();
+                          },
+                          icon: const Icon(CupertinoIcons.line_horizontal_3)),
+                    ],
+                  )
           ],
         ),
       ),

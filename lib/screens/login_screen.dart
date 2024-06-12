@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hero_chum/screens/screen_base_template.dart';
 import 'package:hero_chum/static/auth.dart';
 import 'package:hero_chum/static/constants.dart';
 import 'package:rive/rive.dart';
-import 'package:hero_chum/widgets/navbar/navbar.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -119,22 +119,14 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
-        children: [
-          const NavBar(),
-          Expanded(
-            child: MediaQuery.of(context).orientation == Orientation.landscape
-                ? Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [leftHandside(context), righHandside()],
-                  )
-                : Column(
-                    children: [leftHandside(context), righHandside()],
-                  ),
-          )
-        ],
-      ),
-    );
+    return ScreenBaseTemplate(
+        child: MediaQuery.of(context).orientation == Orientation.landscape
+            ? Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [leftHandside(context), righHandside()],
+              )
+            : Column(
+                children: [leftHandside(context), righHandside()],
+              ));
   }
 }

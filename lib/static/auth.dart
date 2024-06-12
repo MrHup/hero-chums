@@ -11,6 +11,7 @@ Future<UserCredential?> registerUser(
       password: password,
     );
     GlobalState.isUserLoggedIn.value = true;
+    GlobalState.user = credential.user!;
     Get.toNamed("/");
     return credential;
   } on FirebaseAuthException catch (e) {
@@ -34,6 +35,7 @@ Future<UserCredential?> signInUser(String emailAddress, String password) async {
     );
 
     GlobalState.isUserLoggedIn.value = true;
+    GlobalState.user = credential.user!;
     Get.toNamed("/");
     return credential;
   } on FirebaseAuthException catch (e) {

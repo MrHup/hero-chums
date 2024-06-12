@@ -22,6 +22,7 @@ void main() async {
     } else {
       print('User is signed in!');
       GlobalState.isUserLoggedIn.value = true;
+      GlobalState.user = user;
     }
   });
 
