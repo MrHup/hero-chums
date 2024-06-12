@@ -5,8 +5,8 @@ import 'package:hero_chum/static/constants.dart';
 import 'package:rive/rive.dart';
 import 'package:hero_chum/widgets/navbar/navbar.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class RegisterScreen extends StatelessWidget {
+  const RegisterScreen({super.key});
 
   Widget leftHandside(BuildContext context) {
     TextEditingController _emailController = TextEditingController();
@@ -27,7 +27,7 @@ class LoginScreen extends StatelessWidget {
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 40),
                 child: Text(
-                  "Welcome back!",
+                  "Let's get you set up!",
                   style: smallHeaderTextStyle,
                   textAlign: TextAlign.center,
                 ),
@@ -72,7 +72,8 @@ class LoginScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 40),
                 child: ElevatedButton(
                   onPressed: () {
-                    signInUser(_emailController.text, _passwordController.text);
+                    registerUser(
+                        _emailController.text, _passwordController.text);
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue, // Background color
@@ -83,14 +84,15 @@ class LoginScreen extends StatelessWidget {
                     ),
                     minimumSize: const Size(double.infinity, 70), // Button size
                   ),
-                  child: const Text('Sign In', style: highlighButtonTextStyle),
+                  child:
+                      const Text('SignUp now!', style: highlighButtonTextStyle),
                 ),
               ),
               TextButton(
                 onPressed: () {
-                  Get.toNamed("/register");
+                  Get.toNamed('/login');
                 },
-                child: const Text('Need an account?'),
+                child: const Text('Already have an account?'),
               ),
             ],
           ),
@@ -107,7 +109,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             const Expanded(
               child: RiveAnimation.asset(
-                'assets/animations/sad_square_idle.riv',
+                'assets/animations/herochums.riv',
               ),
             ),
             Expanded(child: Image.asset('assets/images/login_motto.png')),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:hero_chum/screens/map_screen.dart';
 import 'package:hero_chum/static/constants.dart';
 
 class MapButton extends StatelessWidget {
@@ -13,7 +12,7 @@ class MapButton extends StatelessWidget {
         overlayColor: MaterialStateProperty.all(Colors.transparent),
       ),
       onPressed: () {
-        Get.to(const MapScreen(), transition: Transition.fadeIn);
+        Get.toNamed("/map");
       },
       child: const Text(
         "Map",

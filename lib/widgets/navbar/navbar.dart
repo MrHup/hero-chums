@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hero_chum/widgets/navbar/about_us_button.dart';
-import 'package:hero_chum/widgets/navbar/login_button.dart';
+import 'package:hero_chum/widgets/navbar/register_button.dart';
 import 'package:hero_chum/widgets/navbar/map_button.dart';
 
 class NavBar extends StatelessWidget {
@@ -34,7 +34,7 @@ class NavBar extends StatelessWidget {
                               AboutUsButton(),
                             ],
                           ),
-                          LoginButton()
+                          RegisterButton()
                         ]),
                   )
                 : const IconButton(

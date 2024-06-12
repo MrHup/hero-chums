@@ -7,8 +7,8 @@ const TextStyle buttonTextStyle = TextStyle(
 );
 
 const TextStyle smallHeaderTextStyle = TextStyle(
-  fontSize: 18.0,
-  fontWeight: FontWeight.w900,
+  fontSize: 20,
+  fontWeight: FontWeight.bold,
   color: Color(0xff06092b),
 );
 
