@@ -30,6 +30,7 @@ class MapSampleState extends State<MapSample> {
               changeMapMode(c);
               _controller.complete(c);
             },
+            mapToolbarEnabled: false,
             mapType: MapType.normal,
             trafficEnabled: false,
             initialCameraPosition: const CameraPosition(

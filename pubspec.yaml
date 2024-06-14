@@ -16,6 +16,7 @@ dependencies:
   rive: ^0.13.7
   firebase_auth: ^5.1.0
   firebase_core: ^3.1.0
+  flutter_animarker: ^3.2.0
 
 dev_dependencies:
   flutter_test:
