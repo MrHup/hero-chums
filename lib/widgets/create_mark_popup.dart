@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hero_chum/static/constants.dart';
+import 'package:hero_chum/static/gemini.dart';
 import 'package:hero_chum/static/state.dart';
 import 'package:hero_chum/widgets/coordinates_label.dart';
 import 'package:hero_chum/widgets/gradient_submit_button.dart';
 import 'package:hero_chum/widgets/image_upload_button.dart';
+import 'package:hero_chum/widgets/map_preview.dart';
 import 'package:hero_chum/widgets/task_description_field.dart';
-import 'package:hero_chum/widgets/urgency_selector.dart';
 
 class CreateMarkPopup extends StatelessWidget {
   const CreateMarkPopup({super.key});
@@ -40,6 +41,8 @@ class CreateMarkPopup extends StatelessWidget {
                                   GlobalState.currentMarker.value.latitude,
                               longitude:
                                   GlobalState.currentMarker.value.longitude),
+                          CircularMapPreview(),
+                          // Expanded(child: SimpleMarkerAnimationExample()),
                           const SizedBox(height: 8),
                           ImageUploadButton(
                               onPressed: () {/* Handle upload */}),
@@ -49,8 +52,9 @@ class CreateMarkPopup extends StatelessWidget {
                           const SizedBox(height: 8),
                           // UrgencySelector(),
                           const SizedBox(height: 8),
-                          GradientSubmitButton(
-                              onPressed: () {/* Handle submit */}),
+                          GradientSubmitButton(onPressed: () async {
+                            await textGen();
+                          }),
                         ],
                       ),
                     ),

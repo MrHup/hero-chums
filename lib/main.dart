@@ -1,5 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:hero_chum/screens/login_screen.dart';
 import 'package:hero_chum/screens/map_screen.dart';
@@ -12,6 +14,8 @@ import 'package:hero_chum/static/state.dart';
 import 'firebase_options.dart';
 
 void main() async {
+  await dotenv.load(fileName: ".env");
+  Gemini.init(apiKey: dotenv.env['GEN_AI_KEY']!, enableDebugging: true);
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
