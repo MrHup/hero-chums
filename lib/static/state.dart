@@ -15,6 +15,7 @@ class GlobalState {
   static var user;
   static var currentMarker = MarkerState(0, 0).obs;
   static var isMarkerOpen = false.obs;
+  static var isMapBlocked = false.obs;
 }
 // have a stack
 // in top layer, based on a current marker that is being observed

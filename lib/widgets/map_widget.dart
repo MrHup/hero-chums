@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/static/state.dart';
 import 'package:hero_chum/widgets/create_mark_popup.dart';
@@ -25,29 +26,36 @@ class MapSampleState extends State<MapSample> {
     return Scaffold(
       body: Stack(
         children: [
-          GoogleMap(
-            onMapCreated: (GoogleMapController c) {
-              changeMapMode(c);
-              _controller.complete(c);
-            },
-            mapToolbarEnabled: false,
-            mapType: MapType.normal,
-            trafficEnabled: false,
-            initialCameraPosition: const CameraPosition(
-              target: LatLng(45.756685, 21.229283),
-              zoom: 13.75,
-            ),
-            markers: _markers,
-            zoomControlsEnabled: false,
-            // zoomGesturesEnabled: false,
-            cameraTargetBounds: CameraTargetBounds(
-              LatLngBounds(
-                northeast: const LatLng(45.812293, 21.348564),
-                southwest: const LatLng(45.693001, 21.150284),
-              ),
-            ),
+          Obx(
+            () => GoogleMap(
+              onMapCreated: (GoogleMapController c) {
+                GlobalState.isMapBlocked.value = false;
+                GlobalState.isMarkerOpen.value = false;
+                changeMapMode(c);
 
-            onTap: _handleTap,
+                _controller.complete(c);
+              },
+              mapToolbarEnabled: false,
+              mapType: MapType.normal,
+              trafficEnabled: false,
+              initialCameraPosition: const CameraPosition(
+                target: LatLng(45.756685, 21.229283),
+                zoom: 13.75,
+              ),
+              markers: _markers,
+              zoomControlsEnabled: false,
+              cameraTargetBounds: CameraTargetBounds(
+                LatLngBounds(
+                  northeast: const LatLng(45.812293, 21.348564),
+                  southwest: const LatLng(45.693001, 21.150284),
+                ),
+              ),
+              myLocationButtonEnabled: false,
+              webGestureHandling: GlobalState.isMapBlocked.value
+                  ? WebGestureHandling.none
+                  : WebGestureHandling.auto,
+              onTap: GlobalState.isMapBlocked.value ? null : _handleTap,
+            ),
           ),
           CreateMarkPopup(),
         ],
@@ -68,13 +76,15 @@ class MapSampleState extends State<MapSample> {
       controller.animateCamera(
         CameraUpdate.newLatLng(tappedPoint),
       );
-    } else {
-      GlobalState.isMarkerOpen.value = false;
-      // remove custom marker with id "InProgress" from marker list
-      setState(() {
-        _markers.removeWhere((marker) => marker.markerId.value == "InProgress");
-      });
+      GlobalState.isMapBlocked.value = true;
     }
+    // else {
+    //   GlobalState.isMarkerOpen.value = false;
+    //   // remove custom marker with id "InProgress" from marker list
+    //   setState(() {
+    //     _markers.removeWhere((marker) => marker.markerId.value == "InProgress");
+    //   });
+    // }
   }
 
   void _addCurrentMarker(LatLng location) async {

@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 import 'package:hero_chum/static/constants.dart';
-import 'package:hero_chum/static/gemini.dart';
 import 'package:hero_chum/static/state.dart';
 import 'package:hero_chum/widgets/coordinates_label.dart';
 import 'package:hero_chum/widgets/gradient_submit_button.dart';
 import 'package:hero_chum/widgets/image_upload_button.dart';
 import 'package:hero_chum/widgets/map_preview.dart';
 import 'package:hero_chum/widgets/task_description_field.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 class CreateMarkPopup extends StatelessWidget {
   const CreateMarkPopup({super.key});
@@ -16,12 +17,13 @@ class CreateMarkPopup extends StatelessWidget {
   Widget build(BuildContext context) {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
-    final widthFactor = isLandscape ? 0.33 : 0.85;
+    final widthFactor = isLandscape ? 0.33 : 1.0;
 
     return Obx(() => GlobalState.isMarkerOpen.value
         ? Center(
             child: Align(
-              alignment: isLandscape ? Alignment.centerRight : Alignment.center,
+              alignment:
+                  isLandscape ? Alignment.centerRight : Alignment.bottomCenter,
               child: FractionallySizedBox(
                 widthFactor: widthFactor,
                 child: Container(
@@ -44,8 +46,10 @@ class CreateMarkPopup extends StatelessWidget {
                           CircularMapPreview(),
                           // Expanded(child: SimpleMarkerAnimationExample()),
                           const SizedBox(height: 8),
-                          ImageUploadButton(
-                              onPressed: () {/* Handle upload */}),
+                          ImageUploadButton(onPressed: () {
+                            GlobalState.isMapBlocked.value = true;
+                            context.loaderOverlay.show();
+                          }),
                           const SizedBox(height: 8),
                           TaskDescriptionField(
                               controller: TextEditingController()),
@@ -53,7 +57,7 @@ class CreateMarkPopup extends StatelessWidget {
                           // UrgencySelector(),
                           const SizedBox(height: 8),
                           GradientSubmitButton(onPressed: () async {
-                            await textGen();
+                            // await textGen();
                           }),
                         ],
                       ),
