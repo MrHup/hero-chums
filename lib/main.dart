@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
+import 'package:hero_chum/controllers/home_screen_controller.dart';
+import 'package:hero_chum/screens/home_screen.dart';
 import 'package:hero_chum/screens/login_screen.dart';
 import 'package:hero_chum/screens/map_screen.dart';
 import 'package:hero_chum/screens/register_screen.dart';
@@ -34,10 +36,13 @@ void main() async {
     debugShowCheckedModeBanner: false,
     unknownRoute: GetPage(name: '/notfound', page: () => const UnknownScreen()),
     initialRoute: '/',
+    initialBinding: BindingsBuilder(() {
+      Get.put(HomeScreenController());
+    }),
     getPages: [
       GetPage(
           name: '/',
-          page: () => const MapScreen(),
+          page: () => const HomeScreen(),
           transition: Transition.fadeIn),
       GetPage(
           name: '/map',
