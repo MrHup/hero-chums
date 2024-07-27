@@ -1,11 +1,10 @@
 import 'dart:async';
 import 'dart:convert';
-import 'dart:typed_data';
-
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/models/marker.dart';
+import 'package:hero_chum/static/bitmap_convertor.dart';
 import 'package:hero_chum/static/firebase_repo.dart';
 
 class HomeScreenController extends GetxController {
@@ -37,14 +36,26 @@ class HomeScreenController extends GetxController {
   Future<List<MarkerModel>> getMarkers() async {
     final FirebaseRepository _fbRepo = Get.find();
     markerDataList = await _fbRepo.fetchAllMarkers();
+    for (var mark in markerDataList) {
+      _addCustomMarker(mark);
+    }
+
     return markerDataList;
+  }
+
+  void _addCustomMarker(MarkerModel mark) async {
+    final bitmapDescriptor =
+        await createBitmapDescriptorFromText(mark.category!);
+    final marker = Marker(
+        markerId: MarkerId(mark.location.toString()), // Ensure unique ID
+        position: LatLng(mark.location!.latitude, mark.location!.longitude),
+        icon: bitmapDescriptor);
+    markers.add(marker);
   }
 
   @override
   void onInit() async {
     super.onInit();
-
-    // load markers from firebase
     Get.lazyPut(() => FirebaseRepository());
   }
 

@@ -51,3 +51,8 @@ flutter:
     - assets/map_styles/style_full_standard.json
     - assets/map_styles/style_silver.json
 
+  fonts:
+    - family: Emoji
+      fonts:
+        - asset: assets/fonts/emoji-font.ttf
+
