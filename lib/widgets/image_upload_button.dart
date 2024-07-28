@@ -20,10 +20,10 @@ class ImageUploadButton extends StatelessWidget {
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(20),
             ),
-            backgroundColor: ourBlue,
-            minimumSize: const Size(double.infinity, 70),
+            backgroundColor: Colors.grey,
+            minimumSize: const Size(double.infinity, 80),
           ),
         ),
       ],

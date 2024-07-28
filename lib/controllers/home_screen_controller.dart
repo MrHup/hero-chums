@@ -35,6 +35,8 @@ class HomeScreenController extends GetxController {
   }
 
   Future<List<MarkerModel>> getMarkers() async {
+    await Future.delayed(const Duration(seconds: 2));
+
     final FirebaseRepository _fbRepo = Get.find();
     markerDataList = await _fbRepo.fetchAllMarkers();
     for (var mark in markerDataList) {

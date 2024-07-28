@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hero_chum/static/constants.dart';
 
 class GradientSubmitButton extends StatelessWidget {
   final VoidCallback onPressed;
@@ -13,11 +14,11 @@ class GradientSubmitButton extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         gradient: const LinearGradient(
-          colors: [Colors.blue, Colors.purple],
+          colors: [Colors.blue, ourBlue],
           begin: Alignment.centerLeft,
           end: Alignment.centerRight,
         ),
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(20),
       ),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(

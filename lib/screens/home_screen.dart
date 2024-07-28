@@ -6,6 +6,7 @@ import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/static/state.dart';
 import 'package:hero_chum/widgets/navbar/left_drawer.dart';
 import 'package:hero_chum/widgets/navbar/navbar.dart';
+import 'package:rive/rive.dart';
 
 class HomeScreen extends GetView<HomeScreenController> {
   const HomeScreen({super.key});
@@ -23,7 +24,23 @@ class HomeScreen extends GetView<HomeScreenController> {
             (BuildContext context, AsyncSnapshot<List<MarkerModel>> snapshot) {
           if (!snapshot.hasData) {
             return const Center(
-              child: CircularProgressIndicator(),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    width: 350,
+                    height: 350,
+                    child: RiveAnimation.asset(
+                      'assets/animations/herochums.riv',
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                  Text("Loading...",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+                ],
+              ),
             );
           }
           return Obx(
