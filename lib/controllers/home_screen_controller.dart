@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:hero_chum/controllers/claim_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/static/bitmap_convertor.dart';
 import 'package:hero_chum/static/firebase_repo.dart';
@@ -46,9 +47,18 @@ class HomeScreenController extends GetxController {
   void _addCustomMarker(MarkerModel mark) async {
     final bitmapDescriptor =
         await createBitmapDescriptorFromText(mark.category!);
+
+    void onTap() => Get.toNamed("/claim", arguments: mark);
+
+    final markerUID = mark.location!.latitude.toString() +
+        mark.location!.longitude.toString();
+
+    print('Creating marker for category: ${mark.category} with UID $markerUID');
+
     final marker = Marker(
-        markerId: MarkerId(mark.location.toString()), // Ensure unique ID
+        markerId: MarkerId(markerUID),
         position: LatLng(mark.location!.latitude, mark.location!.longitude),
+        onTap: onTap,
         icon: bitmapDescriptor);
     markers.add(marker);
   }
@@ -57,6 +67,7 @@ class HomeScreenController extends GetxController {
   void onInit() async {
     super.onInit();
     Get.lazyPut(() => FirebaseRepository());
+    Get.lazyPut(() => ClaimScreenController());
   }
 
   @override

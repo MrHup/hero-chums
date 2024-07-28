@@ -4,6 +4,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:hero_chum/controllers/home_screen_controller.dart';
+import 'package:hero_chum/screens/claim_screen.dart';
 import 'package:hero_chum/screens/home_screen.dart';
 import 'package:hero_chum/screens/login_screen.dart';
 import 'package:hero_chum/screens/map_screen.dart';
@@ -60,6 +61,10 @@ void main() async {
           name: '/user',
           page: () => const UserScreen(),
           transition: Transition.fadeIn),
+      GetPage(
+          name: '/claim',
+          page: () => const ClaimScreen(),
+          transition: Transition.downToUp),
     ],
   ));
 }

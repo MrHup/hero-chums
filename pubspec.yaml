@@ -12,6 +12,7 @@ dependencies:
 
   cupertino_icons: ^1.0.6
   google_maps_flutter: ^2.6.1
+  cached_network_image: ^3.3.1
   get: ^4.6.6
   rive: ^0.13.7
   firebase_auth: ^5.1.0
@@ -36,13 +37,8 @@ flutter:
 
   assets:
     - .env
-    - assets/images/leaf_mark.png
-    - assets/images/custom_mark.png
-    - assets/images/logo_text.png
-    - assets/images/login_motto.png
-    - assets/images/logo.png
+    - assets/images/
     - assets/images/avatars/.
-    - assets/images/trash-2-cans.jpg
 
     - assets/animations/herochums.riv
     - assets/animations/sad_square_idle.riv
