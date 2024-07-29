@@ -7,7 +7,6 @@ import 'package:hero_chum/controllers/home_screen_controller.dart';
 import 'package:hero_chum/screens/claim_screen.dart';
 import 'package:hero_chum/screens/home_screen.dart';
 import 'package:hero_chum/screens/login_screen.dart';
-import 'package:hero_chum/screens/map_screen.dart';
 import 'package:hero_chum/screens/register_screen.dart';
 import 'package:hero_chum/screens/unknown_screen.dart';
 
@@ -19,6 +18,7 @@ import 'firebase_options.dart';
 void main() async {
   await dotenv.load(fileName: ".env");
   Gemini.init(apiKey: dotenv.env['GEN_AI_KEY']!, enableDebugging: true);
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );

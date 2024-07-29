@@ -72,9 +72,13 @@ class ClaimScreen extends GetView<ClaimScreenController> {
                     color: Color.fromARGB(174, 43, 43, 43),
                     fontWeight: FontWeight.bold)),
           ),
-          SizedBox(width: 500, child: ImageUploadButton(onPressed: () {})),
+          SizedBox(
+              width: 500,
+              child: ImageUploadButton(onPressed: controller.uploadImage)),
           const SizedBox(height: 8),
-          SizedBox(width: 500, child: GradientSubmitButton(onPressed: () {}))
+          SizedBox(
+              width: 500,
+              child: GradientSubmitButton(onPressed: controller.submitClaim))
         ],
       ),
     );
