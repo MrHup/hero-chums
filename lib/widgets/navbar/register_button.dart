@@ -30,10 +30,19 @@ class RegisterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(() => !GlobalState.isUserLoggedIn.value
         ? _getStartNowButton()
-        : IconButton(
-            onPressed: () {
-              Get.toNamed("/user");
-            },
-            icon: Image.asset("assets/images/avatars/a1.png")));
+        : Row(
+            children: [
+              Image.asset("assets/images/gem.png"),
+              Obx(() => Text(GlobalState.gems.value.toString(),
+                  style: const TextStyle(
+                      color: Color(0xff06092b), fontWeight: FontWeight.bold))),
+              const SizedBox(width: 16),
+              IconButton(
+                  onPressed: () {
+                    Get.toNamed("/user");
+                  },
+                  icon: Image.asset("assets/images/avatars/a1.png")),
+            ],
+          ));
   }
 }

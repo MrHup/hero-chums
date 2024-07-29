@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
 
 class MarkerState {
@@ -12,10 +13,11 @@ class MarkerState {
 
 class GlobalState {
   static var isUserLoggedIn = false.obs;
-  static var user;
+  static User? user;
   static var currentMarker = MarkerState(0, 0).obs;
   static var isMarkerOpen = false.obs;
   static var isMapBlocked = false.obs;
+  static var gems = 100.obs;
 }
 // have a stack
 // in top layer, based on a current marker that is being observed

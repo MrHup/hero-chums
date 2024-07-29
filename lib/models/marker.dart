@@ -11,12 +11,14 @@ class MarkerModel {
       this.imageURL,
       this.location,
       this.reward,
+      this.id,
       this.title});
 
   String? title;
   String? description;
   String? imageURL;
   String? category;
+  String? id;
   int? complexity;
   int? reward;
 

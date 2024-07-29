@@ -1,10 +1,13 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
-import 'dart:html' as html;
+import 'package:hero_chum/models/marker.dart';
+import 'package:hero_chum/static/state.dart';
 
 class ClaimScreenController extends GetxController {
   PlatformFile? _selectedFile;
+  MarkerModel? marker;
 
   void uploadImage() async {
     var picked = await FilePicker.platform.pickFiles();
@@ -21,6 +24,11 @@ class ClaimScreenController extends GetxController {
       return;
     }
 
+    if (GlobalState.isUserLoggedIn.value == false) {
+      Get.toNamed("/register");
+      return;
+    }
+
     try {
       TaskSnapshot upload = await FirebaseStorage.instance
           .ref(
@@ -32,6 +40,13 @@ class ClaimScreenController extends GetxController {
 
       String url = await upload.ref.getDownloadURL();
       print("Image uploaded with success, yay! $url");
+
+      await FirebaseFirestore.instance.collection('claims').add({
+        "imageURL": url,
+        "userID": GlobalState.user!.uid,
+        "timestamp": DateTime.now().toIso8601String(),
+        "markerID": marker!.id,
+      });
     } catch (e) {
       print('error in uploading image for : ${e.toString()}');
     }

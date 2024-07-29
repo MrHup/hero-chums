@@ -8,6 +8,7 @@ import 'package:hero_chum/widgets/image_upload_button.dart';
 import 'package:hero_chum/widgets/map_preview_fixed.dart';
 import 'package:hero_chum/widgets/navbar/left_drawer.dart';
 import 'package:hero_chum/widgets/navbar/navbar.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 import 'package:rive/rive.dart';
 
 class ClaimScreen extends GetView<ClaimScreenController> {
@@ -16,6 +17,7 @@ class ClaimScreen extends GetView<ClaimScreenController> {
   @override
   Widget build(BuildContext context) {
     final MarkerModel? marker = Get.arguments;
+    controller.marker = marker;
 
     if (marker == null) {
       return const Scaffold(
@@ -39,21 +41,23 @@ class ClaimScreen extends GetView<ClaimScreenController> {
       ));
     }
 
-    final children = [_getInfoCard(marker), _getActionColumn(marker)];
+    final children = [_getInfoCard(marker), _getActionColumn(marker, context)];
 
     return Scaffold(
         appBar:
             const PreferredSize(preferredSize: Size(50, 100), child: NavBar()),
         drawer: const LeftDrawer(),
-        body: MediaQuery.of(context).orientation == Orientation.landscape
-            ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: children)
-            : ListView(children: children));
+        body: LoaderOverlay(
+          child: MediaQuery.of(context).orientation == Orientation.landscape
+              ? Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: children)
+              : ListView(children: children),
+        ));
   }
 
-  Widget _getActionColumn(MarkerModel mark) {
+  Widget _getActionColumn(MarkerModel mark, BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Column(
@@ -78,7 +82,12 @@ class ClaimScreen extends GetView<ClaimScreenController> {
           const SizedBox(height: 8),
           SizedBox(
               width: 500,
-              child: GradientSubmitButton(onPressed: controller.submitClaim))
+              child: GradientSubmitButton(onPressed: () async {
+                context.loaderOverlay.show();
+                await controller.submitClaim();
+                context.loaderOverlay.hide();
+                Get.toNamed("/");
+              }))
         ],
       ),
     );

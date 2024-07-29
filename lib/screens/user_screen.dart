@@ -14,26 +14,24 @@ class UserScreen extends StatelessWidget {
       Get.toNamed('/');
     }
     return ScreenBaseTemplate(
-      child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 40),
-            child: ElevatedButton(
-              onPressed: () {
-                signOutUser();
-              },
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Background color
-                textStyle: const TextStyle(color: Colors.white),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30), // Rounded corners
-                ),
-                minimumSize: const Size(double.infinity, 70), // Button size
+      child: Center(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 40),
+          child: ElevatedButton(
+            onPressed: () {
+              signOutUser();
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blue, // Background color
+              textStyle: const TextStyle(color: Colors.white),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30), // Rounded corners
               ),
-              child: const Text('Logout', style: highlighButtonTextStyle),
+              minimumSize: const Size(double.infinity, 70), // Button size
             ),
+            child: const Text('Logout', style: highlighButtonTextStyle),
           ),
-        ],
+        ),
       ),
     );
   }

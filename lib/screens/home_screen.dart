@@ -63,8 +63,8 @@ class HomeScreen extends GetView<HomeScreenController> {
               zoomControlsEnabled: false,
               cameraTargetBounds: CameraTargetBounds(
                 LatLngBounds(
-                  northeast: const LatLng(45.812293, 21.348564),
-                  southwest: const LatLng(45.693001, 21.150284),
+                  northeast: const LatLng(45.858044, 21.389185),
+                  southwest: const LatLng(45.695732, 21.159476),
                 ),
               ),
               myLocationButtonEnabled: false,
