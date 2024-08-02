@@ -103,8 +103,8 @@ class ClaimScreen extends GetView<ClaimScreenController> {
             surfaceTintColor: Colors.white,
             shadowColor: Colors.black,
             shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-            elevation: 20,
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+            elevation: 10,
             child: Padding(
               padding: const EdgeInsets.all(32),
               child: Column(

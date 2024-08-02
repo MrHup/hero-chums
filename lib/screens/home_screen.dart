@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/controllers/home_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
+import 'package:hero_chum/static/constants.dart';
 import 'package:hero_chum/static/state.dart';
 import 'package:hero_chum/widgets/navbar/left_drawer.dart';
 import 'package:hero_chum/widgets/navbar/navbar.dart';
@@ -43,36 +44,69 @@ class HomeScreen extends GetView<HomeScreenController> {
               ),
             );
           }
-          return Obx(
-            () => GoogleMap(
-              onMapCreated: (GoogleMapController c) {
-                GlobalState.isMapBlocked.value = false;
-                GlobalState.isMarkerOpen.value = false;
-                controller.changeMapMode(c);
-
-                controller.mapController.complete(c);
-              },
-              mapToolbarEnabled: false,
-              mapType: MapType.normal,
-              trafficEnabled: false,
-              initialCameraPosition: const CameraPosition(
-                target: LatLng(45.756685, 21.229283),
-                zoom: 13.75,
-              ),
-              markers: controller.markers,
-              zoomControlsEnabled: false,
-              cameraTargetBounds: CameraTargetBounds(
-                LatLngBounds(
-                  northeast: const LatLng(45.858044, 21.389185),
-                  southwest: const LatLng(45.695732, 21.159476),
+          return Column(
+            children: [
+              Obx(
+                () => Expanded(
+                  child: GoogleMap(
+                    onMapCreated: (GoogleMapController c) {
+                      GlobalState.isMarkerOpen.value = false;
+                      controller.changeMapMode(c);
+                      controller.clean();
+                      // controller.mapController.complete(c);
+                    },
+                    mapToolbarEnabled: false,
+                    mapType: MapType.normal,
+                    trafficEnabled: false,
+                    initialCameraPosition: const CameraPosition(
+                      target: LatLng(45.756685, 21.229283),
+                      zoom: 13.75,
+                    ),
+                    markers: controller.markers,
+                    zoomControlsEnabled: controller.markers.length < 0,
+                    cameraTargetBounds: CameraTargetBounds(
+                      LatLngBounds(
+                        northeast: const LatLng(45.858044, 21.389185),
+                        southwest: const LatLng(45.695732, 21.159476),
+                      ),
+                    ),
+                    myLocationButtonEnabled: false,
+                    webGestureHandling: GlobalState.isMapBlocked.value
+                        ? WebGestureHandling.none
+                        : WebGestureHandling.auto,
+                    onTap: controller.mapTapped,
+                  ),
                 ),
               ),
-              myLocationButtonEnabled: false,
-              webGestureHandling: GlobalState.isMapBlocked.value
-                  ? WebGestureHandling.none
-                  : WebGestureHandling.auto,
-              onTap: controller.handleTap,
-            ),
+              SizedBox(
+                height: 100,
+                child: Expanded(
+                  child: Container(
+                    color: Colors.white,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      child: ElevatedButton.icon(
+                        onPressed: () {
+                          Get.toNamed("/register");
+                        },
+                        icon: const Icon(Icons.location_on,
+                            color: ourRed, size: 30),
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: ourBlue,
+                          textStyle: const TextStyle(color: Colors.white),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          minimumSize: const Size(100, 50),
+                        ),
+                        label: const Text('Add Marker',
+                            style: highlighButtonTextStyle),
+                      ),
+                    ),
+                  ),
+                ),
+              )
+            ],
           );
         },
       ),

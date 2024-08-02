@@ -31,3 +31,4 @@ const TextStyle hintTextStyle = TextStyle(
 );
 
 const Color ourBlue = Color(0xff2a7fff);
+const Color ourRed = Color(0xffff5959);

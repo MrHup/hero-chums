@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:convert';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -7,13 +8,14 @@ import 'package:hero_chum/controllers/claim_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/static/bitmap_convertor.dart';
 import 'package:hero_chum/static/firebase_repo.dart';
+import 'package:hero_chum/static/state.dart';
 
 class HomeScreenController extends GetxController {
   HomeScreenController();
 
   final Completer<GoogleMapController> mapController =
       Completer<GoogleMapController>();
-  Set<Marker> markers = {};
+  var markers = <Marker>{}.obs;
 
   List<MarkerModel> markerDataList = [];
 
@@ -50,7 +52,10 @@ class HomeScreenController extends GetxController {
     final bitmapDescriptor =
         await createBitmapDescriptorFromText(mark.category!);
 
-    void onTap() => Get.toNamed("/claim", arguments: mark);
+    void onTap() {
+      Get.put(ClaimScreenController());
+      Get.toNamed("/claim", arguments: mark);
+    }
 
     final markerUID = mark.location!.latitude.toString() +
         mark.location!.longitude.toString();
@@ -65,11 +70,50 @@ class HomeScreenController extends GetxController {
     markers.add(marker);
   }
 
+  void mapTapped(LatLng tappedPoint) async {
+    _addCurrentMarker(tappedPoint);
+    // final GoogleMapController controller = await mapController.future;
+    // controller.animateCamera(
+    //   CameraUpdate.newLatLng(tappedPoint),
+    // );
+  }
+
+  void _addCurrentMarker(LatLng location) async {
+    final marker = Marker(
+      markerId: const MarkerId("InProgress"),
+      position: location,
+      icon: await BitmapDescriptor.fromAssetImage(
+          const ImageConfiguration(size: Size(44, 67)),
+          'assets/images/custom_mark.png'),
+    );
+    print("Added marker");
+
+    // remove all markers with same id
+    markers.removeWhere((element) => element.markerId.value == "InProgress");
+
+    markers.add(marker);
+  }
+
+  void clean() {
+    print("Cleaning");
+    // remove InProgress markers
+    markers.removeWhere((element) => element.markerId.value == "InProgress");
+    GlobalState.isMapBlocked.value = false;
+    GlobalState.isMarkerOpen.value = false;
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+    clean();
+  }
+
   @override
   void onInit() async {
     super.onInit();
     Get.lazyPut(() => FirebaseRepository());
     Get.lazyPut(() => ClaimScreenController());
+    clean();
   }
 
   @override
