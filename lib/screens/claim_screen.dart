@@ -4,13 +4,13 @@ import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/controllers/claim_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
+import 'package:hero_chum/screens/something_went_wrong.dart';
 import 'package:hero_chum/widgets/gradient_submit_button.dart';
 import 'package:hero_chum/widgets/image_upload_button.dart';
 import 'package:hero_chum/widgets/map_preview_fixed.dart';
 import 'package:hero_chum/widgets/navbar/left_drawer.dart';
 import 'package:hero_chum/widgets/navbar/navbar.dart';
 import 'package:loader_overlay/loader_overlay.dart';
-import 'package:rive/rive.dart';
 
 class ClaimScreen extends GetView<ClaimScreenController> {
   const ClaimScreen({super.key});
@@ -21,25 +21,7 @@ class ClaimScreen extends GetView<ClaimScreenController> {
     controller.marker = marker;
 
     if (marker == null) {
-      return const Scaffold(
-          body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              width: 350,
-              height: 350,
-              child: RiveAnimation.asset(
-                'assets/animations/sad_square_idle.riv',
-              ),
-            ),
-            SizedBox(height: 20),
-            Text("Something went wrong",
-                style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-          ],
-        ),
-      ));
+      return const SomethingWentWrong();
     }
 
     final children = [_getInfoCard(marker), _getActionColumn(marker, context)];
@@ -100,14 +82,11 @@ class ClaimScreen extends GetView<ClaimScreenController> {
     return Padding(
       padding: const EdgeInsets.all(8.0),
       child: Center(
-        child: IntrinsicHeight(
+        child: Container(
+          constraints: const BoxConstraints(maxWidth: 600),
           child: Card(
             color: Colors.white,
             surfaceTintColor: Colors.white,
-            shadowColor: Colors.black,
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
-            elevation: 10,
             child: Padding(
               padding: const EdgeInsets.all(32),
               child: Column(
