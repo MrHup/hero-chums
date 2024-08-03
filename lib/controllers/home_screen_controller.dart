@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/controllers/claim_screen_controller.dart';
+import 'package:hero_chum/controllers/create_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/static/bitmap_convertor.dart';
 import 'package:hero_chum/static/firebase_repo.dart';
@@ -61,21 +62,46 @@ class HomeScreenController extends GetxController {
         mark.location!.longitude.toString();
 
     print('Creating marker for category: ${mark.category} with UID $markerUID');
+    GlobalState.currentLocation =
+        LatLng(mark.location!.latitude, mark.location!.longitude);
 
     final marker = Marker(
         markerId: MarkerId(markerUID),
-        position: LatLng(mark.location!.latitude, mark.location!.longitude),
+        position: GlobalState.currentLocation,
         onTap: onTap,
         icon: bitmapDescriptor);
     markers.add(marker);
   }
 
+  void goToCreateScreen() {
+    LatLng tappedPoint = LatLng(GlobalState.currentLocation.latitude,
+        GlobalState.currentLocation.longitude);
+
+    Get.put(CreateScreenController());
+    Get.toNamed("/create", arguments: tappedPoint);
+  }
+
   void mapTapped(LatLng tappedPoint) async {
-    _addCurrentMarker(tappedPoint);
     // final GoogleMapController controller = await mapController.future;
     // controller.animateCamera(
     //   CameraUpdate.newLatLng(tappedPoint),
     // );
+
+    if (!GlobalState.isMarkerOpen.value) {
+      _addCurrentMarker(tappedPoint);
+      zoomIn(tappedPoint, 20);
+    } else {
+      clean();
+      zoomIn(tappedPoint, 13.75);
+    }
+  }
+
+  void zoomIn(LatLng tappedPoint, double zoom) async {
+    final GoogleMapController controller = await mapController.future;
+    controller.animateCamera(CameraUpdate.newLatLngZoom(
+      LatLng(tappedPoint.latitude, tappedPoint.longitude),
+      zoom,
+    ));
   }
 
   void _addCurrentMarker(LatLng location) async {
@@ -86,11 +112,10 @@ class HomeScreenController extends GetxController {
           const ImageConfiguration(size: Size(44, 67)),
           'assets/images/custom_mark.png'),
     );
-    print("Added marker");
+    GlobalState.isMarkerOpen.value = true;
 
     // remove all markers with same id
     markers.removeWhere((element) => element.markerId.value == "InProgress");
-
     markers.add(marker);
   }
 
@@ -113,6 +138,7 @@ class HomeScreenController extends GetxController {
     super.onInit();
     Get.lazyPut(() => FirebaseRepository());
     Get.lazyPut(() => ClaimScreenController());
+    Get.lazyPut(() => CreateScreenController());
     clean();
   }
 

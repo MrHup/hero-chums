@@ -2,11 +2,10 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:hero_chum/models/marker.dart';
 
 class FixedMapPreview extends StatelessWidget {
   final double radius;
-  final MarkerModel mark;
+  final LatLng mark;
   final Completer<GoogleMapController> _controller = Completer();
 
   FixedMapPreview({
@@ -17,9 +16,6 @@ class FixedMapPreview extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(mark.location!.longitude);
-
-    print("Building clip");
     return ClipOval(
       child: SizedBox(
         width: radius * 2, // Diameter
@@ -28,7 +24,7 @@ class FixedMapPreview extends StatelessWidget {
           onMapCreated: (controller) => _controller.complete(controller),
           zoomControlsEnabled: true,
           initialCameraPosition: CameraPosition(
-            target: LatLng(mark.location!.latitude, mark.location!.longitude),
+            target: LatLng(mark.latitude, mark.longitude),
             zoom: 13.75,
           ),
           mapType: MapType.normal,
@@ -37,8 +33,7 @@ class FixedMapPreview extends StatelessWidget {
           markers: {
             Marker(
                 markerId: const MarkerId('center'),
-                position:
-                    LatLng(mark.location!.latitude, mark.location!.longitude))
+                position: LatLng(mark.latitude, mark.longitude))
           },
           scrollGesturesEnabled: false,
           zoomGesturesEnabled: false,

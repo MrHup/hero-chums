@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/controllers/claim_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/widgets/gradient_submit_button.dart';
@@ -64,7 +65,9 @@ class ClaimScreen extends GetView<ClaimScreenController> {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          FixedMapPreview(mark: mark),
+          FixedMapPreview(
+            mark: LatLng(mark.location!.latitude, mark.location!.longitude),
+          ),
           const SizedBox(height: 16),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),

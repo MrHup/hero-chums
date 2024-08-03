@@ -85,22 +85,27 @@ class HomeScreen extends GetView<HomeScreenController> {
                     color: Colors.white,
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 16),
-                      child: ElevatedButton.icon(
-                        onPressed: () {
-                          Get.toNamed("/register");
-                        },
-                        icon: const Icon(Icons.location_on,
-                            color: ourRed, size: 30),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: ourBlue,
-                          textStyle: const TextStyle(color: Colors.white),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                      child: Obx(
+                        () => ElevatedButton.icon(
+                          onPressed: !GlobalState.isMarkerOpen.value
+                              ? null
+                              : controller.goToCreateScreen,
+                          icon: Icon(Icons.location_on,
+                              color: !GlobalState.isMarkerOpen.value
+                                  ? Colors.white
+                                  : ourRed,
+                              size: 30),
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: ourBlue,
+                            textStyle: const TextStyle(color: Colors.white),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                            minimumSize: const Size(100, 50),
                           ),
-                          minimumSize: const Size(100, 50),
+                          label: const Text('Add Marker',
+                              style: highlighButtonTextStyle),
                         ),
-                        label: const Text('Add Marker',
-                            style: highlighButtonTextStyle),
                       ),
                     ),
                   ),

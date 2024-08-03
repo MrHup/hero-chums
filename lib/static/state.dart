@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:get/get.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MarkerState {
   double longitude;
@@ -18,6 +19,7 @@ class GlobalState {
   static var isMarkerOpen = false.obs;
   static var isMapBlocked = false.obs;
   static var gems = 100.obs;
+  static LatLng currentLocation = const LatLng(0, 0);
 }
 // have a stack
 // in top layer, based on a current marker that is being observed
