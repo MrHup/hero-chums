@@ -35,25 +35,36 @@ class CreateScreen extends GetView<CreateScreenController> {
               color: Colors.white,
               surfaceTintColor: Colors.white,
               child: Padding(
-                padding: const EdgeInsets.all(16.0), // Adjust padding as needed
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
+                padding: const EdgeInsets.all(16.0),
+                child: ListView(
+                  // crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    const Text("Create Task", style: smallHeaderTextStyle),
-                    CoordinatesLabel(
-                        latitude: location.latitude,
-                        longitude: location.longitude),
-                    FixedMapPreview(mark: location),
+                    const Center(
+                        child:
+                            Text("Create Task", style: smallHeaderTextStyle)),
+                    Center(
+                      child: CoordinatesLabel(
+                          latitude: location.latitude,
+                          longitude: location.longitude),
+                    ),
+                    Center(child: FixedMapPreview(mark: location)),
                     // Expanded(child: SimpleMarkerAnimationExample()),
                     const SizedBox(height: 8),
-                    ImageUploadButton(onPressed: () {}),
+                    ImageUploadButton(onPressed: controller.uploadImage),
+                    Obx(() => controller.imageUrl.value.isEmpty
+                        ? Container()
+                        : Padding(
+                            padding: const EdgeInsets.all(16.0),
+                            child: Image.network(controller.imageUrl.value),
+                          )),
                     const SizedBox(height: 8),
+                    // add image here
                     TaskDescriptionField(controller: TextEditingController()),
                     const SizedBox(height: 8),
                     // UrgencySelector(),
                     const SizedBox(height: 8),
                     GradientSubmitButton(onPressed: () async {
-                      // await textGen();
+                      await controller.submit(location);
                     }),
                   ],
                 ),

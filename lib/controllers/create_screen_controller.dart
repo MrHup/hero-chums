@@ -1,14 +1,21 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:firebase_storage/firebase_storage.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/controllers/home_screen_controller.dart';
+import 'package:hero_chum/models/gemini_response.dart';
 import 'package:hero_chum/models/marker.dart';
-import 'package:hero_chum/static/state.dart';
+import 'package:hero_chum/static/firebase_repo.dart';
+import 'package:hero_chum/static/gemini.dart';
+import 'package:hero_chum/static/utils.dart';
+import 'dart:html' as html;
+import 'dart:typed_data';
 
 class CreateScreenController extends GetxController {
   PlatformFile? _selectedFile;
   MarkerModel? marker;
+  RxString imageUrl = "".obs;
 
   void uploadImage() async {
     var picked = await FilePicker.platform.pickFiles();
@@ -16,41 +23,71 @@ class CreateScreenController extends GetxController {
     if (picked != null) {
       print(picked.files.first.name);
       _selectedFile = picked.files.first;
+      final bytes = _selectedFile!.bytes;
+      if (bytes != null) {
+        final blob = html.Blob([Uint8List.fromList(bytes)]);
+        imageUrl.value = html.Url.createObjectUrlFromBlob(blob);
+      }
     }
   }
 
-  Future<void> submitClaim() async {
+  Future<void> submit(LatLng location) async {
     if (_selectedFile == null) {
-      print('No file to upload.');
+      Get.snackbar(
+        "Error",
+        "Please select an image",
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+        isDismissible: true,
+      );
       return;
     }
 
-    if (GlobalState.isUserLoggedIn.value == false) {
-      Get.toNamed("/register");
+    GeminiResponseModel geminiResponse = await geminiCall(_selectedFile!);
+    print("Obtained response $geminiResponse");
+
+    if (geminiResponse.title == "error") {
+      Get.snackbar(
+        "Warning",
+        "Your submission was flagged by our and AI as not appropriate. Please try again.",
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+        isDismissible: true,
+        backgroundColor: Colors.amber,
+      );
       return;
     }
 
-    try {
-      TaskSnapshot upload = await FirebaseStorage.instance
-          .ref(
-              'events/${DateTime.now().toIso8601String()}.${_selectedFile!.extension}')
-          .putData(
-            _selectedFile!.bytes!,
-            SettableMetadata(contentType: 'image/${_selectedFile!.extension}'),
-          );
+    Get.snackbar(
+        "Success!", "Your submission was successful! Heroes are on their way!",
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+        isDismissible: true,
+        backgroundColor: Colors.green);
 
-      String url = await upload.ref.getDownloadURL();
-      print("Image uploaded with success, yay! $url");
+    // generate marker id
+    String randomID = generateRandomString(10);
 
-      await FirebaseFirestore.instance.collection('claims').add({
-        "imageURL": url,
-        "userID": GlobalState.user!.uid,
-        "timestamp": DateTime.now().toIso8601String(),
-        "markerID": marker!.id,
-      });
-    } catch (e) {
-      print('error in uploading image for : ${e.toString()}');
-    }
+    // upload image to firebase and get its url
+    final FirebaseRepository _fbRepo = Get.find();
+    String imageURL = await _fbRepo.uploadImageToStorage(_selectedFile!);
+
+    MarkerModel markerModel = MarkerModel(
+      id: randomID,
+      category: geminiResponse.emoji,
+      complexity: geminiResponse.complexity,
+      description: geminiResponse.summary,
+      imageURL: imageURL,
+      title: geminiResponse.title,
+      location: GeoPoint(location.latitude, location.longitude),
+      reward: geminiResponse.complexity! * 100,
+    );
+
+    // add marker to firestore
+    await _fbRepo.addMarker(markerModel);
+
+    // navigate to /home page and trigger reload
+    Get.offAllNamed("/");
   }
 
   @override

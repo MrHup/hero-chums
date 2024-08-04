@@ -113,6 +113,7 @@ class HomeScreenController extends GetxController {
           'assets/images/custom_mark.png'),
     );
     GlobalState.isMarkerOpen.value = true;
+    GlobalState.currentLocation = location;
 
     // remove all markers with same id
     markers.removeWhere((element) => element.markerId.value == "InProgress");

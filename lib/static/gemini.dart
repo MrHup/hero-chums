@@ -1,7 +1,17 @@
 import 'dart:typed_data';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
 
 import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:hero_chum/models/gemini_response.dart';
+
+GeminiResponseModel defaultResponse = GeminiResponseModel(
+  summary: "error",
+  title: "error",
+  complexity: 0,
+  emoji: "",
+);
 
 Future<Uint8List> loadAsset(String path) async {
   ByteData data = await rootBundle.load(path);
@@ -9,34 +19,46 @@ Future<Uint8List> loadAsset(String path) async {
   return bytes;
 }
 
-Future<void> textGen() async {
-  print("Trying");
+Future<void> listModels() async {
   final gemini = Gemini.instance;
-
-  Uint8List selectedImage = await loadAsset('assets/images/logo.png');
-  gemini
-      .textAndImage(text: "What is this picture?", images: [selectedImage])
-      .then((value) => print(value?.content?.parts?.last.text ?? ''))
-      .catchError((e) => print(e));
+  gemini.listModels().then((value) => print(value));
 }
 
-Future<void> textGen2() async {
-  print("Trying");
+Future<GeminiResponseModel> geminiCall(PlatformFile file) async {
   final gemini = Gemini.instance;
-  gemini
-      .chat([
-        Content(parts: [
-          Parts(text: 'Write the first line of a story about a magic backpack.')
-        ], role: 'user'),
-        Content(parts: [
-          Parts(
-              text:
-                  'In the bustling city of Meadow brook, lived a young girl named Sophie. She was a bright and curious soul with an imaginative mind.')
-        ], role: 'model'),
-        Content(parts: [
-          Parts(text: 'Can you set it in a quiet village in 1600s France?')
-        ], role: 'user'),
-      ])
-      .then((value) => print(value?.output ?? 'without output'))
-      .catchError((e) => print(e));
+
+  // transform PlatformFile to Uint8List from the web, path is not available
+  Uint8List selectedImage = file.bytes!;
+
+  try {
+    final response = await gemini.textAndImage(
+      text: "Answer only with a JSON object, nothing else. "
+          "Given the following image and description, generate:\n"
+          "{\n"
+          "\"complexity\": <integer between 0-5 meaning how long does it take for one person to complete the task>,\n"
+          "\"summary\": <string, short summary of the task>,\n"
+          "\"title\": <string, short title for the task>,\n"
+          "\"emoji\": <a string containing a single emoji that best describes the task>\n"
+          "}\n\n"
+          "If the image does not contain a task or appropriate information, return {} instead.",
+      images: [selectedImage],
+      modelName: "models/gemini-1.5-flash",
+    );
+
+    final String responseText = response?.content?.parts?.last.text ?? '';
+
+    if (responseText.isEmpty || responseText == "{}") {
+      print("Error: $responseText");
+      return defaultResponse;
+    }
+
+    final jsonObj = GeminiResponseModel.fromJson(json.decode(responseText));
+    print("JSON OBJ: $jsonObj");
+
+    return jsonObj;
+  } catch (e) {
+    print("ERROR");
+    print(e);
+    return defaultResponse;
+  }
 }
