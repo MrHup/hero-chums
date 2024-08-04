@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/controllers/claim_screen_controller.dart';
@@ -64,6 +65,12 @@ class ClaimScreen extends GetView<ClaimScreenController> {
           SizedBox(
               width: 500,
               child: ImageUploadButton(onPressed: controller.uploadImage)),
+          Obx(() => controller.imageUrl.value.isEmpty
+              ? Container()
+              : Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Image.network(controller.imageUrl.value),
+                )),
           const SizedBox(height: 8),
           SizedBox(
               width: 500,
@@ -89,64 +96,78 @@ class ClaimScreen extends GetView<ClaimScreenController> {
             surfaceTintColor: Colors.white,
             child: Padding(
               padding: const EdgeInsets.all(32),
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Text(
-                          mark.category!,
-                          style: const TextStyle(
-                              fontSize: 25, fontFamily: "Emoji"),
-                        ),
-                        Text(
-                          mark.title!,
-                          style: const TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
-                        )
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    Stack(
-                      children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(10),
-                          child: CachedNetworkImage(
-                            imageUrl: mark.imageURL!,
+              child: Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            mark.category!,
+                            style: const TextStyle(
+                                fontSize: 25, fontFamily: "Emoji"),
+                          ),
+                          Text(
+                            mark.title!,
+                            style: const TextStyle(
+                                fontSize: 18, fontWeight: FontWeight.bold),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      Stack(
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: CachedNetworkImage(
+                              imageUrl: mark.imageURL!,
+                              width: 400,
+                              fit: BoxFit.fitWidth,
+                            ),
+                          ),
+                          SizedBox(
                             width: 400,
-                            fit: BoxFit.fitWidth,
+                            child: Align(
+                              alignment: Alignment.topRight,
+                              child:
+                                  Image.asset("assets/images/avatars/a1.png"),
+                            ),
                           ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
+                      IntrinsicWidth(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            _getTextGraphicPair(
+                                "Reward:",
+                                mark.reward!.toString(),
+                                "assets/images/rubies.png"),
+                            _getTextGraphicPair(
+                                "Complexity:",
+                                _getSpecificString(mark.complexity!),
+                                "assets/images/watches.png"),
+                            const Text("Description:",
+                                style: TextStyle(
+                                    fontSize: 16, fontWeight: FontWeight.bold)),
+                            SizedBox(
+                              width: 420,
+                              height: 75,
+                              child: Text(mark.description!,
+                                  maxLines: 5,
+                                  style: const TextStyle(
+                                      fontSize: 16,
+                                      color: Color.fromARGB(174, 43, 43, 43),
+                                      fontWeight: FontWeight.bold)),
+                            ),
+                          ],
                         ),
-                        SizedBox(
-                          width: 400,
-                          child: Align(
-                            alignment: Alignment.topRight,
-                            child: Image.asset("assets/images/avatars/a1.png"),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 20),
-                    _getTextGraphicPair("Reward:", mark.reward!.toString(),
-                        "assets/images/rubies.png"),
-                    _getTextGraphicPair(
-                        "Complexity:",
-                        _getSpecificString(mark.complexity!),
-                        "assets/images/watches.png"),
-                    const Text("Description:",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold)),
-                    SizedBox(
-                      width: 420,
-                      height: 75,
-                      child: Text(mark.description!,
-                          maxLines: 5,
-                          style: const TextStyle(
-                              fontSize: 16,
-                              color: Color.fromARGB(174, 43, 43, 43),
-                              fontWeight: FontWeight.bold)),
-                    ),
-                  ]),
+                      ),
+                    ]),
+              ),
             ),
           ),
         ),

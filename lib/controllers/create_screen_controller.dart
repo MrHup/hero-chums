@@ -8,6 +8,7 @@ import 'package:hero_chum/models/gemini_response.dart';
 import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/static/firebase_repo.dart';
 import 'package:hero_chum/static/gemini.dart';
+import 'package:hero_chum/static/state.dart';
 import 'package:hero_chum/static/utils.dart';
 import 'dart:html' as html;
 import 'dart:typed_data';
@@ -23,7 +24,6 @@ class CreateScreenController extends GetxController {
     var picked = await FilePicker.platform.pickFiles();
 
     if (picked != null) {
-      print(picked.files.first.name);
       _selectedFile = picked.files.first;
       final bytes = _selectedFile!.bytes;
       if (bytes != null) {
@@ -41,6 +41,18 @@ class CreateScreenController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(16),
         isDismissible: true,
+      );
+      return;
+    }
+
+    if (GlobalState.isUserLoggedIn.value == false) {
+      Get.snackbar(
+        "Account Required",
+        "Create an account in order to make a submission",
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+        isDismissible: true,
+        backgroundColor: Colors.amber,
       );
       return;
     }
