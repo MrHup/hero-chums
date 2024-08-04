@@ -11,6 +11,8 @@ import 'package:hero_chum/widgets/map_preview_fixed.dart';
 import 'package:hero_chum/widgets/navbar/left_drawer.dart';
 import 'package:hero_chum/widgets/navbar/navbar.dart';
 import 'package:hero_chum/widgets/task_description_field.dart';
+import 'package:loader_overlay/loader_overlay.dart';
+import 'package:rive/rive.dart';
 
 // ignore: must_be_immutable
 class CreateScreen extends GetView<CreateScreenController> {
@@ -27,46 +29,69 @@ class CreateScreen extends GetView<CreateScreenController> {
         appBar:
             const PreferredSize(preferredSize: Size(50, 100), child: NavBar()),
         drawer: const LeftDrawer(),
-        body: Center(
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 600),
-            child: Card(
-              shadowColor: Colors.white,
-              color: Colors.white,
-              surfaceTintColor: Colors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(16.0),
-                child: ListView(
-                  // crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    const Center(
-                        child:
-                            Text("Create Task", style: smallHeaderTextStyle)),
-                    Center(
-                      child: CoordinatesLabel(
-                          latitude: location.latitude,
-                          longitude: location.longitude),
-                    ),
-                    Center(child: FixedMapPreview(mark: location)),
-                    // Expanded(child: SimpleMarkerAnimationExample()),
-                    const SizedBox(height: 8),
-                    ImageUploadButton(onPressed: controller.uploadImage),
-                    Obx(() => controller.imageUrl.value.isEmpty
-                        ? Container()
-                        : Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Image.network(controller.imageUrl.value),
-                          )),
-                    const SizedBox(height: 8),
-                    // add image here
-                    TaskDescriptionField(controller: TextEditingController()),
-                    const SizedBox(height: 8),
-                    // UrgencySelector(),
-                    const SizedBox(height: 8),
-                    GradientSubmitButton(onPressed: () async {
-                      await controller.submit(location);
-                    }),
-                  ],
+        body: LoaderOverlay(
+          overlayWholeScreen: true,
+          overlayColor: Color.fromARGB(255, 0, 0, 0).withOpacity(0.8),
+          useDefaultLoading: false,
+          overlayWidgetBuilder: (_) => const Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 350,
+                height: 350,
+                child: RiveAnimation.asset(
+                  'assets/animations/thinking_chum.riv',
+                ),
+              ),
+              SizedBox(height: 20),
+              Text("Loading...",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
+            ],
+          )),
+          child: Center(
+            child: Container(
+              constraints: const BoxConstraints(maxWidth: 600),
+              child: Card(
+                shadowColor: Colors.white,
+                color: Colors.white,
+                surfaceTintColor: Colors.white,
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: ListView(
+                    children: [
+                      const Center(
+                          child:
+                              Text("Create Task", style: smallHeaderTextStyle)),
+                      Center(
+                        child: CoordinatesLabel(
+                            latitude: location.latitude,
+                            longitude: location.longitude),
+                      ),
+                      Center(child: FixedMapPreview(mark: location)),
+                      const SizedBox(height: 8),
+                      ImageUploadButton(onPressed: controller.uploadImage),
+                      Obx(() => controller.imageUrl.value.isEmpty
+                          ? Container()
+                          : Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Image.network(controller.imageUrl.value),
+                            )),
+                      const SizedBox(height: 8),
+                      // add image here
+                      TaskDescriptionField(controller: TextEditingController()),
+                      const SizedBox(height: 8),
+                      // UrgencySelector(),
+                      const SizedBox(height: 8),
+                      GradientSubmitButton(onPressed: () async {
+                        await controller.submit(location, context);
+                      }),
+                    ],
+                  ),
                 ),
               ),
             ),

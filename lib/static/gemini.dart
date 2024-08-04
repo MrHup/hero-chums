@@ -53,7 +53,7 @@ Future<GeminiResponseModel> geminiCall(PlatformFile file) async {
     }
 
     final jsonObj = GeminiResponseModel.fromJson(json.decode(responseText));
-    print("JSON OBJ: $jsonObj");
+    print(jsonObj.toJson());
 
     return jsonObj;
   } catch (e) {

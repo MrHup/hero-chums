@@ -12,6 +12,8 @@ import 'package:hero_chum/static/utils.dart';
 import 'dart:html' as html;
 import 'dart:typed_data';
 
+import 'package:loader_overlay/loader_overlay.dart';
+
 class CreateScreenController extends GetxController {
   PlatformFile? _selectedFile;
   MarkerModel? marker;
@@ -31,7 +33,7 @@ class CreateScreenController extends GetxController {
     }
   }
 
-  Future<void> submit(LatLng location) async {
+  Future<void> submit(LatLng location, BuildContext context) async {
     if (_selectedFile == null) {
       Get.snackbar(
         "Error",
@@ -42,6 +44,8 @@ class CreateScreenController extends GetxController {
       );
       return;
     }
+
+    context.loaderOverlay.show();
 
     GeminiResponseModel geminiResponse = await geminiCall(_selectedFile!);
     print("Obtained response $geminiResponse");
@@ -55,6 +59,8 @@ class CreateScreenController extends GetxController {
         isDismissible: true,
         backgroundColor: Colors.amber,
       );
+      context.loaderOverlay.hide();
+      Get.offAllNamed("/");
       return;
     }
 
@@ -86,6 +92,7 @@ class CreateScreenController extends GetxController {
     // add marker to firestore
     await _fbRepo.addMarker(markerModel);
 
+    context.loaderOverlay.hide();
     // navigate to /home page and trigger reload
     Get.offAllNamed("/");
   }
