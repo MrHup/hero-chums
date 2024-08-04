@@ -21,7 +21,7 @@ class CreateScreenController extends GetxController {
   RxString imageUrl = "".obs;
 
   void uploadImage() async {
-    var picked = await FilePicker.platform.pickFiles();
+    var picked = await FilePicker.platform.pickFiles(type: FileType.image);
 
     if (picked != null) {
       _selectedFile = picked.files.first;
