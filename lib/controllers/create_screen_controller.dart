@@ -54,6 +54,7 @@ class CreateScreenController extends GetxController {
         isDismissible: true,
         backgroundColor: Colors.amber,
       );
+      Get.toNamed("/register");
       return;
     }
 

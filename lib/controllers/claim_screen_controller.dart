@@ -2,12 +2,15 @@ import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hero_chum/controllers/home_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/static/state.dart';
 import 'dart:html' as html;
+
+import 'package:loader_overlay/loader_overlay.dart';
 
 class ClaimScreenController extends GetxController {
   PlatformFile? _selectedFile;
@@ -28,16 +31,32 @@ class ClaimScreenController extends GetxController {
     }
   }
 
-  Future<void> submitClaim() async {
+  Future<void> submitClaim(BuildContext context) async {
     if (_selectedFile == null) {
-      print('No file to upload.');
+      Get.snackbar(
+        "Error",
+        "Please select an image",
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+        isDismissible: true,
+      );
       return;
     }
 
     if (GlobalState.isUserLoggedIn.value == false) {
+      print("Account required");
+      Get.snackbar(
+        "Account Required",
+        "Create an account in order to make a submission",
+        snackPosition: SnackPosition.BOTTOM,
+        margin: const EdgeInsets.all(16),
+        isDismissible: true,
+        backgroundColor: Colors.amber,
+      );
       Get.toNamed("/register");
       return;
     }
+    context.loaderOverlay.show();
 
     try {
       TaskSnapshot upload = await FirebaseStorage.instance
@@ -60,6 +79,8 @@ class ClaimScreenController extends GetxController {
     } catch (e) {
       print('error in uploading image for : ${e.toString()}');
     }
+
+    context.loaderOverlay.hide();
   }
 
   @override

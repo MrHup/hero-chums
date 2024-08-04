@@ -47,10 +47,6 @@ void main() async {
           page: () => const HomeScreen(),
           transition: Transition.fadeIn),
       GetPage(
-          name: '/map',
-          page: () => const HomeScreen(),
-          transition: Transition.fadeIn),
-      GetPage(
           name: '/register',
           page: () => const RegisterScreen(),
           transition: Transition.fadeIn),

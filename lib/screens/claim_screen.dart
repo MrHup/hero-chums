@@ -12,6 +12,7 @@ import 'package:hero_chum/widgets/map_preview_fixed.dart';
 import 'package:hero_chum/widgets/navbar/left_drawer.dart';
 import 'package:hero_chum/widgets/navbar/navbar.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+import 'package:rive/rive.dart';
 
 class ClaimScreen extends GetView<ClaimScreenController> {
   const ClaimScreen({super.key});
@@ -32,6 +33,29 @@ class ClaimScreen extends GetView<ClaimScreenController> {
             const PreferredSize(preferredSize: Size(50, 100), child: NavBar()),
         drawer: const LeftDrawer(),
         body: LoaderOverlay(
+          overlayWholeScreen: true,
+          overlayColor: Color.fromARGB(255, 0, 0, 0).withOpacity(0.8),
+          useDefaultLoading: false,
+          overlayWidgetBuilder: (_) => const Center(
+              child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              SizedBox(
+                width: 350,
+                height: 350,
+                child: RiveAnimation.asset(
+                  'assets/animations/herochums.riv',
+                ),
+              ),
+              SizedBox(height: 20),
+              Text("Loading...",
+                  style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white)),
+            ],
+          )),
           child: MediaQuery.of(context).orientation == Orientation.landscape
               ? Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
@@ -69,16 +93,13 @@ class ClaimScreen extends GetView<ClaimScreenController> {
               ? Container()
               : Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Image.network(controller.imageUrl.value),
+                  child: Image.network(controller.imageUrl.value, width: 200),
                 )),
           const SizedBox(height: 8),
           SizedBox(
               width: 500,
               child: GradientSubmitButton(onPressed: () async {
-                context.loaderOverlay.show();
-                await controller.submitClaim();
-                context.loaderOverlay.hide();
-                Get.toNamed("/");
+                await controller.submitClaim(context);
               }))
         ],
       ),

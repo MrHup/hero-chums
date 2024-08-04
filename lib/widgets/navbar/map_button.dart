@@ -8,7 +8,7 @@ class MapButton extends StatelessWidget {
   final bool forNavBar;
 
   void _onPressed() {
-    Get.toNamed("/map");
+    Get.toNamed("/");
   }
 
   @override
