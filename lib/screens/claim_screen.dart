@@ -143,16 +143,19 @@ class ClaimScreen extends GetView<ClaimScreenController> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
-                            child: CachedNetworkImage(
-                              placeholder: (context, url) => const Center(
-                                  child: Padding(
-                                padding: EdgeInsets.all(16.0),
-                                child: CircularProgressIndicator(
-                                    strokeWidth: 4, color: ourBlue),
-                              )),
-                              imageUrl: mark.imageURL!,
-                              width: 400,
-                              fit: BoxFit.fitWidth,
+                            child: ConstrainedBox(
+                              constraints: const BoxConstraints(maxHeight: 400),
+                              child: CachedNetworkImage(
+                                placeholder: (context, url) => const Center(
+                                    child: Padding(
+                                  padding: EdgeInsets.all(16.0),
+                                  child: CircularProgressIndicator(
+                                      strokeWidth: 4, color: ourBlue),
+                                )),
+                                imageUrl: mark.imageURL!,
+                                width: 400,
+                                fit: BoxFit.fitWidth,
+                              ),
                             ),
                           ),
                           SizedBox(
