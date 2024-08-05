@@ -107,7 +107,7 @@ class LoginScreen extends StatelessWidget {
           children: [
             const Expanded(
               child: RiveAnimation.asset(
-                'assets/animations/sad_square_idle.riv',
+                'assets/animations/happy_chum.riv',
               ),
             ),
             Expanded(child: Image.asset('assets/images/login_motto.png')),

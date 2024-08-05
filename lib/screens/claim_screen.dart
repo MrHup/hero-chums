@@ -6,6 +6,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:hero_chum/controllers/claim_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/screens/something_went_wrong.dart';
+import 'package:hero_chum/static/constants.dart';
 import 'package:hero_chum/widgets/gradient_submit_button.dart';
 import 'package:hero_chum/widgets/image_upload_button.dart';
 import 'package:hero_chum/widgets/map_preview_fixed.dart';
@@ -143,6 +144,12 @@ class ClaimScreen extends GetView<ClaimScreenController> {
                           ClipRRect(
                             borderRadius: BorderRadius.circular(10),
                             child: CachedNetworkImage(
+                              placeholder: (context, url) => const Center(
+                                  child: Padding(
+                                padding: EdgeInsets.all(16.0),
+                                child: CircularProgressIndicator(
+                                    strokeWidth: 4, color: ourBlue),
+                              )),
                               imageUrl: mark.imageURL!,
                               width: 400,
                               fit: BoxFit.fitWidth,

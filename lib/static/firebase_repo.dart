@@ -2,6 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hero_chum/models/marker.dart';
+import 'package:hero_chum/models/reward.dart';
+import 'package:hero_chum/models/reward_claim.dart';
+import 'package:hero_chum/static/state.dart';
 
 class FirebaseRepository {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -17,6 +20,31 @@ class FirebaseRepository {
           .toList();
     }
     return [];
+  }
+
+  Future<List<RewardModel>> fetchAllRewards(
+      {String docName = "rewards"}) async {
+    final rewardsListDoc =
+        await _firestore.collection("rewards").doc(docName).get();
+
+    if (rewardsListDoc.exists) {
+      final List<dynamic> rewardsDataList = rewardsListDoc.data()!["rewards"];
+      return rewardsDataList
+          .map((rewardData) => RewardModel.fromJson(rewardData))
+          .toList();
+    }
+    return [];
+  }
+
+  Future<void> addRewardClaim(RewardModel reward) async {
+    RewardClaimModel rewardClaim = RewardClaimModel(
+      cost: reward.cost,
+      prizeName: reward.title,
+      userID: GlobalState.user!.uid,
+    );
+    await _firestore.collection("rewards").doc("claims").update({
+      "claims": FieldValue.arrayUnion([rewardClaim.toJson()])
+    });
   }
 
   Future<String> uploadImageToStorage(PlatformFile file) async {

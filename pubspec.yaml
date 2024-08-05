@@ -57,6 +57,9 @@ flutter:
     - assets/animations/herochums.riv
     - assets/animations/sad_square_idle.riv
     - assets/animations/thinking_chum.riv
+    - assets/animations/rewards_chum.riv
+    - assets/animations/happy_chum.riv
+
 
     - assets/map_styles/style_dark.json
     - assets/map_styles/style_full_standard.json

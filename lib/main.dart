@@ -4,11 +4,13 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:hero_chum/controllers/home_screen_controller.dart';
+import 'package:hero_chum/controllers/rewards_screen_controller.dart';
 import 'package:hero_chum/screens/claim_screen.dart';
 import 'package:hero_chum/screens/create_screen.dart';
 import 'package:hero_chum/screens/home_screen.dart';
 import 'package:hero_chum/screens/login_screen.dart';
 import 'package:hero_chum/screens/register_screen.dart';
+import 'package:hero_chum/screens/rewards_screen.dart';
 import 'package:hero_chum/screens/unknown_screen.dart';
 
 import 'package:firebase_core/firebase_core.dart';
@@ -40,6 +42,7 @@ void main() async {
     initialRoute: '/',
     initialBinding: BindingsBuilder(() {
       Get.put(HomeScreenController());
+      Get.put(RewardsScreenController());
     }),
     getPages: [
       GetPage(
@@ -66,6 +69,10 @@ void main() async {
           name: '/create',
           page: () => const CreateScreen(),
           transition: Transition.downToUp),
+      GetPage(
+          name: '/rewards',
+          page: () => const RewardsScreen(),
+          transition: Transition.fadeIn),
     ],
   ));
 }

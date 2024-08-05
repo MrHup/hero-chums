@@ -40,7 +40,7 @@ Future<GeminiResponseModel> geminiCall(PlatformFile file) async {
           "\"title\": <string, short title for the task>,\n"
           "\"emoji\": <a string containing a single emoji that best describes the task>\n"
           "}\n\n"
-          "If the image does not contain a task or appropriate information, return {} instead.",
+          "If the image does not match the description or is not relevant/appropriate, return {} instead.",
       images: [selectedImage],
       modelName: "models/gemini-1.5-flash",
     );

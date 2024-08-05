@@ -3,6 +3,7 @@ import 'package:hero_chum/static/state.dart';
 import 'package:hero_chum/widgets/navbar/about_us_button.dart';
 import 'package:hero_chum/widgets/navbar/map_button.dart';
 import 'package:hero_chum/widgets/navbar/register_button.dart';
+import 'package:hero_chum/widgets/navbar/rewards_button.dart';
 
 class LeftDrawer extends StatelessWidget {
   const LeftDrawer({super.key});
@@ -27,6 +28,7 @@ class LeftDrawer extends StatelessWidget {
                       : Image.asset("assets/images/logo.png")),
               const MapButton(forNavBar: true),
               const AboutUsButton(forNavBar: true),
+              const RewardsButton(forNavBar: true)
             ],
           ),
           !GlobalState.isUserLoggedIn.value
