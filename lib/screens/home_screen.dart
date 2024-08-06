@@ -14,6 +14,7 @@ class HomeScreen extends GetView<HomeScreenController> {
 
   @override
   Widget build(BuildContext context) {
+    print("building");
     final Future<List<MarkerModel>> _firebaseMarkers = controller.getMarkers();
 
     return Scaffold(

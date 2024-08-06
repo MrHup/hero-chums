@@ -39,7 +39,7 @@ class HomeScreenController extends GetxController {
 
   Future<List<MarkerModel>> getMarkers() async {
     await Future.delayed(const Duration(seconds: 2));
-
+    Get.put(FirebaseRepository());
     final FirebaseRepository _fbRepo = Get.find();
     markerDataList = await _fbRepo.fetchAllMarkers();
     for (var mark in markerDataList) {
@@ -126,6 +126,7 @@ class HomeScreenController extends GetxController {
     markers.removeWhere((element) => element.markerId.value == "InProgress");
     GlobalState.isMapBlocked.value = false;
     GlobalState.isMarkerOpen.value = false;
+    update();
   }
 
   @override

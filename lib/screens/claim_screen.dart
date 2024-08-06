@@ -186,9 +186,10 @@ class ClaimScreen extends GetView<ClaimScreenController> {
                                     fontSize: 16, fontWeight: FontWeight.bold)),
                             SizedBox(
                               width: 420,
-                              height: 75,
+                              // height: 75,
                               child: Text(mark.description!,
                                   maxLines: 5,
+                                  overflow: TextOverflow.ellipsis,
                                   style: const TextStyle(
                                       fontSize: 16,
                                       color: Color.fromARGB(174, 43, 43, 43),

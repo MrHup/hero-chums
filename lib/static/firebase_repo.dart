@@ -14,6 +14,7 @@ class FirebaseRepository {
     final markersListDoc =
         await _firestore.collection("markers").doc(docName).get();
     if (markersListDoc.exists) {
+      print("Exists!!");
       final List<dynamic> markersDataList = markersListDoc.data()!["markers"];
       return markersDataList
           .map((markerData) => MarkerModel.fromJson(markerData))

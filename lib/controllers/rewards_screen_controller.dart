@@ -5,7 +5,7 @@ import 'package:hero_chum/static/firebase_repo.dart';
 class RewardsScreenController extends GetxController {
   Future<List<RewardModel>> getRewards() async {
     await Future.delayed(const Duration(seconds: 2));
-
+    Get.put(FirebaseRepository());
     final FirebaseRepository fbRepo = Get.find();
     List<RewardModel> rewardsDataList = await fbRepo.fetchAllRewards();
 
