@@ -22,15 +22,6 @@ class HomeScreenController extends GetxController {
 
   void handleTap(LatLng tappedPoint) async {}
 
-  void changeMapMode(GoogleMapController mapController) {
-    void setMapStyle(String mapStyle, GoogleMapController mapController) {
-      mapController.setMapStyle(mapStyle);
-    }
-
-    _getJsonFile("map_styles/style_full_standard.json")
-        .then((value) => setMapStyle(value, mapController));
-  }
-
   Future<String> _getJsonFile(String path) async {
     ByteData byte = await rootBundle.load(path);
     var list = byte.buffer.asUint8List(byte.offsetInBytes, byte.lengthInBytes);

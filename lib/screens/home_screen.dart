@@ -50,9 +50,9 @@ class HomeScreen extends GetView<HomeScreenController> {
               Obx(
                 () => Expanded(
                   child: GoogleMap(
+                    cloudMapId: "c1813ab378348fce",
                     onMapCreated: (GoogleMapController c) {
                       GlobalState.isMarkerOpen.value = false;
-                      controller.changeMapMode(c);
                       controller.clean();
                       // controller.mapController.complete(c);
                     },
