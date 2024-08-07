@@ -24,7 +24,8 @@ Future<void> listModels() async {
   gemini.listModels().then((value) => print(value));
 }
 
-Future<GeminiResponseModel> geminiCall(PlatformFile file) async {
+Future<GeminiResponseModel> geminiCall(
+    PlatformFile file, String description) async {
   final gemini = Gemini.instance;
 
   // transform PlatformFile to Uint8List from the web, path is not available
@@ -33,10 +34,11 @@ Future<GeminiResponseModel> geminiCall(PlatformFile file) async {
   try {
     final response = await gemini.textAndImage(
       text: "Answer only with a JSON object, nothing else. "
-          "Given the following image and description, generate:\n"
+          "Description: $description\n"
+          "Given the following image and description, generate a task:\n"
           "{\n"
           "\"complexity\": <integer between 1-5 meaning how long does it take for one person to complete the task>,\n"
-          "\"summary\": <string, given description, fix any grammar issues and rephrase. Do not shorten>,\n"
+          "\"summary\": <string, fix description grammar issues, rephrase. Do not shorten>,\n"
           "\"title\": <string, short title for the task>,\n"
           "\"emoji\": <a string containing a single emoji that best describes the task>\n"
           "}\n\n"

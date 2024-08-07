@@ -19,6 +19,7 @@ class CreateScreenController extends GetxController {
   PlatformFile? _selectedFile;
   MarkerModel? marker;
   RxString imageUrl = "".obs;
+  TextEditingController textController = TextEditingController();
 
   void uploadImage() async {
     var picked = await FilePicker.platform.pickFiles(type: FileType.image);
@@ -60,7 +61,8 @@ class CreateScreenController extends GetxController {
 
     context.loaderOverlay.show();
 
-    GeminiResponseModel geminiResponse = await geminiCall(_selectedFile!);
+    GeminiResponseModel geminiResponse =
+        await geminiCall(_selectedFile!, textController.text);
     print("Obtained response $geminiResponse");
 
     if (geminiResponse.title == "error") {

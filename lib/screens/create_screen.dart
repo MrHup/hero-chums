@@ -83,7 +83,8 @@ class CreateScreen extends GetView<CreateScreenController> {
                             )),
                       const SizedBox(height: 8),
                       // add image here
-                      TaskDescriptionField(controller: TextEditingController()),
+                      TaskDescriptionField(
+                          controller: controller.textController),
                       const SizedBox(height: 8),
                       // UrgencySelector(),
                       const SizedBox(height: 8),
