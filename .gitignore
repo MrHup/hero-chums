@@ -50,3 +50,4 @@ google-services.json
 index.html
 AndroidManifest.xml
 AppDelegate.swift
+.firebase
