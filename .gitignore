@@ -46,3 +46,7 @@ app.*.map.json
 firebase.json
 firebase_options.dart
 google-services.json
+
+index.html
+AndroidManifest.xml
+AppDelegate.swift
