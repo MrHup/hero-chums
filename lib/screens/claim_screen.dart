@@ -90,11 +90,11 @@ class ClaimScreen extends GetView<ClaimScreenController> {
           SizedBox(
               width: 500,
               child: ImageUploadButton(onPressed: controller.uploadImage)),
-          Obx(() => controller.imageUrl.value.isEmpty
+          Obx(() => controller.imageBytes.value!.isEmpty
               ? Container()
               : Padding(
                   padding: const EdgeInsets.all(16.0),
-                  child: Image.network(controller.imageUrl.value, width: 200),
+                  child: Image.memory(controller.imageBytes.value!, width: 200),
                 )),
           const SizedBox(height: 8),
           SizedBox(

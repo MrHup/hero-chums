@@ -19,9 +19,9 @@ class RegisterButton extends StatelessWidget {
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(30), // Rounded corners
           ),
-          minimumSize: const Size(100, 50), // Button size
+          minimumSize: const Size(50, 50), // Button size
         ),
-        child: const Text('Start Now', style: highlighButtonTextStyle),
+        child: const Text('Start', style: highlighButtonTextStyle),
       ),
     );
   }

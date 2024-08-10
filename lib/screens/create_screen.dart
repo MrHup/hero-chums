@@ -75,11 +75,11 @@ class CreateScreen extends GetView<CreateScreenController> {
                       Center(child: FixedMapPreview(mark: location)),
                       const SizedBox(height: 8),
                       ImageUploadButton(onPressed: controller.uploadImage),
-                      Obx(() => controller.imageUrl.value.isEmpty
+                      Obx(() => controller.imageBytes.value!.isEmpty
                           ? Container()
                           : Padding(
                               padding: const EdgeInsets.all(16.0),
-                              child: Image.network(controller.imageUrl.value),
+                              child: Image.memory(controller.imageBytes.value!),
                             )),
                       const SizedBox(height: 8),
                       // add image here

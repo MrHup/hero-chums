@@ -1,5 +1,4 @@
 import 'dart:typed_data';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +7,12 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:hero_chum/controllers/home_screen_controller.dart';
 import 'package:hero_chum/models/marker.dart';
 import 'package:hero_chum/static/state.dart';
-import 'dart:html' as html;
-
 import 'package:loader_overlay/loader_overlay.dart';
 
 class ClaimScreenController extends GetxController {
   PlatformFile? _selectedFile;
   MarkerModel? marker;
-  RxString imageUrl = "".obs;
+  Rx<Uint8List?> imageBytes = Rx<Uint8List?>(null);
 
   void uploadImage() async {
     var picked = await FilePicker.platform.pickFiles(type: FileType.image);
@@ -23,10 +20,8 @@ class ClaimScreenController extends GetxController {
     if (picked != null) {
       print(picked.files.first.name);
       _selectedFile = picked.files.first;
-      final bytes = _selectedFile!.bytes;
-      if (bytes != null) {
-        final blob = html.Blob([Uint8List.fromList(bytes)]);
-        imageUrl.value = html.Url.createObjectUrlFromBlob(blob);
+      if (_selectedFile != null && _selectedFile!.bytes != null) {
+        imageBytes.value = _selectedFile!.bytes;
       }
     }
   }
