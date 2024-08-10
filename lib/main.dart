@@ -5,6 +5,7 @@ import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:get/get.dart';
 import 'package:hero_chum/controllers/home_screen_controller.dart';
 import 'package:hero_chum/controllers/rewards_screen_controller.dart';
+import 'package:hero_chum/screens/about_us_screen.dart';
 import 'package:hero_chum/screens/claim_screen.dart';
 import 'package:hero_chum/screens/create_screen.dart';
 import 'package:hero_chum/screens/home_screen.dart';
@@ -72,6 +73,10 @@ void main() async {
       GetPage(
           name: '/rewards',
           page: () => const RewardsScreen(),
+          transition: Transition.fadeIn),
+      GetPage(
+          name: '/about',
+          page: () => const AboutUsScreen(),
           transition: Transition.fadeIn),
     ],
   ));

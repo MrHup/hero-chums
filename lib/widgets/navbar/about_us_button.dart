@@ -8,7 +8,7 @@ class AboutUsButton extends StatelessWidget {
   final bool forNavBar;
 
   void _onPressed() {
-    Get.toNamed("/");
+    Get.toNamed("/about");
   }
 
   @override

@@ -59,6 +59,7 @@ flutter:
     - assets/animations/thinking_chum.riv
     - assets/animations/rewards_chum.riv
     - assets/animations/happy_chum.riv
+    - assets/animations/why.riv
 
 
     - assets/map_styles/style_dark.json
