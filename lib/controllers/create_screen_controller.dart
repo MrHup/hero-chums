@@ -68,7 +68,7 @@ class CreateScreenController extends GetxController {
     if (geminiResponse.title == "error") {
       Get.snackbar(
         "Warning",
-        "Your submission was flagged by our and AI as not appropriate. Please try again.",
+        "Your submission was flagged by our AI as not appropriate. Please try again.",
         snackPosition: SnackPosition.BOTTOM,
         margin: const EdgeInsets.all(16),
         isDismissible: true,
