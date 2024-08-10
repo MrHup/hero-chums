@@ -1,16 +1,7 @@
-# hero_chum
+# HeroChums
 
-A new Flutter project.
+![Banner](https://i.imgur.com/4EbSoZe.png)
 
-## Getting Started
+HeroChums is an open source platform for public good built for the Gemini API Developer Competition. It allows users to signal issues in their city and offers points to those who resolve them, all that while using Gemini's AI to moderate and control the user content. 
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+The application itself is a working PoC that aims to explore the idea of a self-sustainable platform with the scope of improving the quality of life of local communities in big cities. The application was developed in a relatively small timeframe during the hackathon.
