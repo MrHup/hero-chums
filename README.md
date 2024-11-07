@@ -1,8 +1,8 @@
-# 🎉 **HeroChums**
+# 🎉 **EchoHero**
 
 ![Banner](https://i.imgur.com/4EbSoZe.png)
 
-**HeroChums** is an open-source platform created for the Gemini API Developer Competition. It helps users:
+**EchoHero** is an open-source platform created for the Gemini API Developer Competition. It helps users:
 
 - 🚨 Report local issues
 - 💡 Solve them

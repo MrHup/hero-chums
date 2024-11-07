@@ -64,7 +64,7 @@ class AboutUsScreen extends GetView<RewardsScreenController> {
                 ? MediaQuery.of(Get.context!).size.width * 0.3
                 : MediaQuery.of(Get.context!).size.width * 0.85,
             child: Text(
-              "HeroChums is an open source PoC platform for public good built for the Gemini API Developer Competition. It allows users to signal issues in their city and offers points to those who resolve them, all that while using Gemini's AI to moderate and control the user content.",
+              "EchoHero is an open source PoC platform for public good built for the Gemini API Developer Competition. It allows users to signal issues in their city and offers points to those who resolve them, all that while using Gemini's AI to moderate and control the user content.",
               style: TextStyle(
                 color: Colors.grey[700],
               ),
